@@ -57,6 +57,8 @@ export default class RNPickerSelect extends PureComponent {
         // Custom Icon
         Icon: PropTypes.func,
         InputAccessoryView: PropTypes.func,
+		dropdownItemStyle: PropTypes.shape({}),
+		activeItemStyle: PropTypes.shape({}),
     };
 
     static defaultProps = {
@@ -85,6 +87,8 @@ export default class RNPickerSelect extends PureComponent {
         touchableWrapperProps: {},
         Icon: null,
         InputAccessoryView: null,
+		dropdownItemStyle: {},
+		activeItemStyle: {},
     };
 
     static handlePlaceholder({ placeholder }) {
@@ -260,11 +264,13 @@ export default class RNPickerSelect extends PureComponent {
     }
 
     renderPickerItems() {
-        const { items } = this.state;
+        const { items, selectedItem } = this.state;
+		const { dropdownItemStyle, activeItemStyle } = this.props;
 
         return items.map((item) => {
             return (
                 <Picker.Item
+					style={selectedItem.value === item.value ? activeItemStyle : dropdownItemStyle}
                     label={item.label}
                     value={item.value}
                     key={item.key || item.label}
